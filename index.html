@@ -1,4 +1,8 @@
-<!doctype html><meta charset=utf-8><title> Try Asciidoc in your browser </title>
+<!doctype html>
+<html>
+<head>
+<meta charset=utf-8>
+<title> Try Asciidoc in your browser </title>
 <link rel="stylesheet" href="cm/lib/codemirror.css">
 <link rel="stylesheet" href="asciidoc.css">
 <style>
@@ -46,8 +50,9 @@
   #website-link a::before { content: '['; }
   #website-link a::after { content: ']'; }
 </style>
+</head>
 
-
+<body>
 <div id='leditor'>
   <textarea id='lcode'></textarea>
   <pre id='error'></pre>
@@ -63,9 +68,52 @@
 <script src='cm/lib/codemirror.js'></script>
 <script src='cm/mode/asciidoc/asciidoc.js'></script>
 <script src="asciidoctor-all.min.js"></script>
+<script type="text/asciidoc" id="defaultcontent">
+Try AsciiDoc
+------------
+
+There is _no reason_ to prefer http://daringfireball.net/projects/markdown/[Markdown]:
+it has *all the features*
+footnote:[See http://asciidoc.org/userguide.html[the user guide].]
+and more!
+
+NOTE: Great projects use it, including Git, WeeChat and Pacman!
+
+=== Comparison
+
+.Snippets of markup footnote:[More snippets in http://powerman.name/doc/asciidoc[the cheatsheet]]
+[cols=",2*<"]
+|===
+.3+^.^s| Link |AsciiDoc |`http://example.com[Dummy]`
+              |Markdown |`[Dummy](http://example.com)`
+              |Textile |`"Dummy":http://example.com`
+
+.3+^.^s| Face |AsciiDoc |`Either *bold* or _italic_`
+              |Markdown |`Either **bold** or *italic*`
+ |Textile  |`Either *bold* or _italic_`
+
+.3+^.^s| Header |AsciiDoc |`== Level 2 ==`
+                |Markdown |`## Level 2`
+                |Textile  |`h2.  Level 2`
+|===
+
+=== Ruby code to render AsciiDoc
+
+[source,ruby]
+----
+require 'asciidoctor'  # <1>
+
+puts Asciidoctor.render_file('sample.adoc', :header_footer => true)  # <2>
+----
+<1> Imports the library
+<2> Reads, parses and renders the file
+
+
+And here is some silly math:
+e^πi^ + 1 = 0 and H~2~O.
+</script>
 <script>
 (function SetEditor() {
-
 
 // By default, CM maps the Tab key to the insertion of an actual tab.
 function betterTab(cm) {
@@ -108,8 +156,10 @@ editor.on("renderLine", function(cm, line, elt) {
   elt.style.paddingLeft = (basePadding + off) + "px";
 });
 editor.refresh();
-editor.setValue('Try AsciiDoc\n------------\n\nThere is _no reason_ to prefer http://daringfireball.net/projects/markdown/[Markdown]:\nit has *all the features*\nfootnote:[See http://asciidoc.org/userguide.html[the user guide].]\nand more!\n\nNOTE: Great projects use it, including Git, WeeChat and Pacman!\n\n=== Comparison\n\n.Snippets of markup footnote:[More snippets in http://powerman.name/doc/asciidoc[the cheatsheet]]\n[cols=",2*<"]\n|===\n.3+^.^s| Link |AsciiDoc |`http://example.com[Dummy]`\n              |Markdown |`[Dummy](http://example.com)`\n              |Textile |`"Dummy":http://example.com`\n\n.3+^.^s| Face |AsciiDoc |`Either *bold* or _italic_`\n              |Markdown |`Either **bold** or *italic*`\n |Textile  |`Either *bold* or _italic_`\n\n.3+^.^s| Header |AsciiDoc |`== Level 2 ==`\n                |Markdown |`## Level 2`\n                |Textile  |`h2.  Level 2`\n|===\n\n=== Ruby code to render AsciiDoc\n\n[source,ruby]\n----\nrequire \'asciidoctor\'  # <1>\n\nputs Asciidoctor.render_file(\'sample.adoc\', :header_footer => true)  # <2>\n----\n<1> Imports the library\n<2> Reads, parses and renders the file\n\n\nAnd here is some silly math:\ne^πi^ + 1 = 0 and H~2~O.\n');
+editor.setValue(document.getElementById('defaultcontent').innerHTML);
 window.editor = editor;
 
 }());
 </script>
+</body>
+</html>
